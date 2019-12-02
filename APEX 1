@@ -1,0 +1,78 @@
+Integer myInt = 1;
+
+switch on myInt {
+    when 1 {
+        System.debug('myInt is One');
+    }	
+    when 2 {
+        System.debug('myInt is Two');
+    }
+    when 3 {
+        System.debug('myInt is Three');
+    }
+    when 4 {
+        System.debug('myInt is Four');
+    }
+    when 5 {
+        System.debug('myInt is Five');
+    }
+    when else {
+        System.debug('myInt is another number');
+    }
+}
+
+
+
+List<account> myAcc = [SELECT ID,name from account LIMIT 1];
+system.debug(myAcc);   
+
+//Funciona si hay un solo registro
+account myAcc = [SELECT ID,name from account LIMIT 1];
+system.debug(myAcc);   
+
+
+
+List<opportunity> myOpp = [Select Id, name
+                          From opportunity
+                          where closedate > 2017-01-01 or Name like 'e%'];
+system.debug(myOpp);
+
+
+List<AggregateResult> agg = [SELECT AVG(Amount) avg_amount
+                              from opportunity
+                            where isdeleted = false];
+system.debug(agg);
+
+//Debe ejectutarse lo anterior (incluyendo el debug)
+//para que funcione el próximo
+object avg = agg[0].get('avg_amount');
+system.debug(avg);
+
+//DML dATA mANIPULATION lANGUAGE
+
+Account acc = new Account();
+acc.name = 'Cuenta nueva';
+Insert acc;
+
+//Revisar en Salesforce
+List<Account> Lista = new List <Account>();
+
+for(Integer i =0; i<20; i++){
+    if (i < 4){
+        continue;
+    }
+    Account acc = new Account();
+    acc.name = 'Nueva_cuenta ' + i;
+    Lista.add(acc);
+}
+
+insert Lista;
+
+List <Account> Listaeliminar =[
+    Select Id
+    From Account
+    Where name like 'Nueva_cuenta%' OR
+    NAME LIKE 'Nueva cuenta%'
+];
+
+delete Listaeliminar;
